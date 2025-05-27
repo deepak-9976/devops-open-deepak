@@ -1,0 +1,59 @@
+---
+version: "3.5"
+
+networks:
+  default:
+    driver: bridge
+    name: lab
+
+services:
+  server:
+    image: gitea/gitea:1.15.10
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    networks:
+      default:
+        aliases:
+          - gitea.demo.local
+    volumes:
+      - ./gitea:/data
+    ports:
+      - "3000:3000"
+      - "2222:22"
+  jenkins:
+    container_name: jenkins
+    environment:
+      - JAVA_OPTS=-Dhudson.model.DirectoryBrowserSupport.CSP="sandbox allow-scripts; script-src 'unsafe-inline'; style-src 'unsafe-inline';" # Allow inline JavaScript
+      - PLUGINS_FORCE_UPGRADE=true # Enforce upgrade of native plugins at startup
+    image: jenkins-maven-docker:1.0
+    networks:
+      default:
+        aliases:
+          - jenkins.demo.local
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    user: :900 # part of the docker group as the user needs to be able to start containers
+    volumes:
+      - jenkins_home:/var/jenkins_home:rw # Workspace home
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Allows Jenkins to stop/start containers
+
+  registry:
+    container_name: registry
+    image: registry:2
+    ports:
+      - "5001:5000"
+    restart: unless-stopped
+    networks:
+      default:
+        aliases:
+          - registry.demo.local
+    volumes:
+      - registry:/var/lib/registry
+volumes:
+  jenkins_home:
+    name: jenkins_home
+  registry:
