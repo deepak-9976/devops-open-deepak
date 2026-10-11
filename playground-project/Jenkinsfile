@@ -9,7 +9,8 @@ pipeline {
     stages {
         stage('Build Maven') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'git@github.com:deepak-9976/devops-open-deepak/devops/playground-project.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'git@github.com:deepak-9976/devops-open-deepak.git']]])
+				sh 'cd playground-project'
                 sh 'mvn clean install'
             }
         }
