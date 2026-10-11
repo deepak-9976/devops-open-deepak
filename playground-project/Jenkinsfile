@@ -1,9 +1,5 @@
 pipeline {
-    agent 
-	  {   docker {
-            image 'maven:3.9-eclipse-temurin-21'
-             }
-	  }
+	 agent any
     environment {
         PROJECT_ID = 'project-8bac9238-f889-40b2-ba4'
         CLUSTER_NAME = 'gke-deep-dive'
