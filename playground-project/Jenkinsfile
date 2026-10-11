@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PROJECT_ID = 'argon-potential-459218-r7'
+        PROJECT_ID = 'project-8bac9238-f889-40b2-ba4'
         CLUSTER_NAME = 'gke-deep-dive'
         LOCATION = 'europe-west1-b'
         CREDENTIALS_ID = 'jenkins-sa-key'
