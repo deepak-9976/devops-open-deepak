@@ -23,7 +23,7 @@ pipeline {
         stage('Push image to hub') {
             steps {
                 script {
-                    sh 'docker login -u deepak9976 -p Kamna-123
+                    sh 'docker login -u deepak9976 -p Kamna-123'
                     sh 'docker push docker.io/deepak9976/playground-image:latest' // Corrected line
                 }
             }
