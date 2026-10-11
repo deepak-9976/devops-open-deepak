@@ -1,5 +1,8 @@
 pipeline {
 	 agent any
+	 tools {
+        maven 'Maven3'
+      }
     environment {
         PROJECT_ID = 'project-8bac9238-f889-40b2-ba4'
         CLUSTER_NAME = 'gke-deep-dive'
@@ -10,8 +13,10 @@ pipeline {
         stage('Build Maven') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'git@github.com:deepak-9976/devops-open-deepak.git']]])
-				sh 'cd playground-project'
-                sh 'mvn clean install'
+				dir("playground-project") {
+                    sh "pwd"
+                    sh 'mvn clean install'
+                }
             }
         }
         stage('Build docker image') {
