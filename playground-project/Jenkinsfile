@@ -19,26 +19,6 @@ pipeline {
                 }
             }
         }
-        stage('Build docker image') {
-            steps {
-                script {
-                    sh 'docker build -t docker.io/deepak9976/playground-image:latest .'
-                }
-            }
-        }
-        stage('Push image to hub') {
-            steps {
-                script {
-                    sh 'docker login -u deepak9976 -p Kamna-123'
-                    sh 'docker push docker.io/deepak9976/playground-image:latest' // Corrected line
-                }
-            }
-        }
-        stage('Deploy on K8s Cluster') {
-            steps {
-step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'manifests.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
-		   echo "Deployment Finished ..."
-                }
-            }
+        
         }    
 }
